@@ -1,0 +1,25 @@
+%rule = [0 1 1 1 1 0 0 0];%rule 30;
+%rule = [0 1 0 1 1 0 1 0];%rule 90;
+%rule = [0 1 1 0 1 0 0 1];%rule 150;
+%rule = [0 1 0 1 1 1 0 1];%rule 184;
+N = 200;%最大容量
+a = zeros(1,N);%(时间步，元胞位置);
+b = zeros(1,N);%(时间步，元胞位置);缓存作用;
+a(1,N/2) = 1;%初始化
+%0:白，1：黑
+for time =  1:100
+    for i = 1:N
+         if i ~= 1 && i ~= N
+            b(time,i) = rule(1,a(time,i-1)*4+a(time,i)*2+a(time,i+1)+1);
+        end
+        if i == 1
+            b(time,i) = rule(1,a(time,N)*4 + a(time,i)*2 + a(time,i+1)+1);
+        end
+        if i == N
+            b(time,i) = rule(1,a(time,i-1)*4 + a(time,i)*2 + a(time,1)+1);
+        end 
+    end
+    a(time+1,1:N) = b(time,1:N);
+end
+imagesc(a);
+ylabel('time','fontname','times');
